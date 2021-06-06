@@ -1,0 +1,225 @@
+package tiendaanimales;
+import java.util.Scanner;
+
+//MAIN LLAMADA A LAS CLASES Y FUNCIONES,DAR VALORES
+
+public class tiendanimales {
+Scanner sc=new Scanner(System.in);
+
+
+	public static void main(String[] args) {
+		
+		String sonidogato="Miauuuuuuuu";
+		String sonidoperro="Guauuuguauuuu";
+		String gustogato="Quiero pienso de pescado";
+		String gustoperro="Quiero pienso de carne";
+		String sonidocobaya="cuyyy cuyyy";
+		String gustocobaya="Quiero verdurita";
+		
+		//objeto
+		mascota  tanimales []  = new mascota [5];
+        
+        
+        tanimales[0]= new gato ("Felix",Sexo.MACHO,"siames");
+        tanimales[1]= new perro ("Toby",Sexo.MACHO,"mezcla");
+        tanimales[2]= new gato ("Mimi",Sexo.HEMBRA,"siames");
+        tanimales[3]= new cobaya ("Bola",Sexo.MACHO);
+        tanimales[4]= new cobaya ("Peluso",Sexo.MACHO);
+		
+        // llamada a función
+        for (int i=0;i<tanimales.length;i++) {
+        	System.out.println("ANIMAL: "+i+"--->"+tanimales[i]);
+        	tanimales[i].decirAlgo();
+        	tanimales[i].gustosAlimentarios();
+        	
+        }
+		//padre del hijo
+        gato gatito=new gato("Zeus",Sexo.MACHO,"persa");
+        
+        //reproducción
+        System.out.println("El gato padre se va a reproducir con los animales distintos de nuestros datos");
+        for(int i=0;i<tanimales.length;i++) {
+        	mascota hijo=gatito.cruzar(tanimales[i]);
+        	if(hijo!=null) {
+        		System.out.println("PADRE= "+gatito);
+        		System.out.println("MADRE= "+tanimales[i]);
+        		System.out.println("HIJO= "+hijo);
+        		hijo.decirAlgo();
+        		hijo.gustosAlimentarios();
+        		
+        	}else {
+        		System.out.println("A Zeus no le gusta cruzarse con "+tanimales[i]);
+        	}
+        }
+		
+
+	}
+
+}
+
+//CLASE ABSTRACTA MASCOTA
+
+public abstract class mascota {
+
+
+protected String nombre;
+protected Sexo sexo;
+static String sonido;
+static String mascota;
+static int gusto;
+
+	public mascota(String nombre,Sexo sexo) {
+		//Constructor
+		this.nombre=nombre;
+		this.sexo=sexo;
+		
+	}
+	public void setNombre ( String nombre ){
+	       this.nombre = nombre;   
+	}   
+	public String toString(){
+        // Obtengo en nombre de mi clase final (polimorfirmo)
+       return "Soy un "+ this.getClass().getName() +", mi nombre es "+nombre + " Sexo = "+sexo;
+       
+    }
+   public abstract void decirAlgo();
+   public abstract void gustosAlimentarios();
+   public abstract mascota cruzar ( mascota otra);
+   
+   
+}
+
+//CLASE SEXO QUE PUEDE SER O MACHO O HEMBRA
+
+public enum Sexo {
+	HEMBRA, MACHO;
+}
+
+//CLASE GATO QUE ES HERENCIA DE MASCOTA
+
+public class gato extends mascota{
+Scanner sc=new Scanner(System.in);
+static String sonidogato;
+static String gustogato;
+static String mascotaotra;
+private String raza;
+	public gato(String nombre, Sexo sexo, String raza) {
+		super(nombre,sexo);
+		// Constructor
+		this.raza=raza;
+	}
+	public void decirAlgo() {
+		System.out.println(sonidogato);
+	}
+	public void gustosAlimentarios() {
+		System.out.println(gustogato);
+	}
+	public String toString() {
+		return super.toString()+" RAZA= "+this.raza;
+	}
+
+	@Override
+	public mascota cruzar(mascota otra) {
+		 mascota hijo = null;
+	       
+	       if (  (this.getClass() == otra.getClass()) && (this.sexo != otra.sexo)) {
+	           Sexo sexohijo = ( Math.random() >0.5)? Sexo.MACHO: Sexo.HEMBRA;
+	           String razahijo;
+	           
+	           if ( this.raza.equals(((gato)otra).raza) ){
+	               razahijo = this.raza;
+	            }
+	           else{
+	               razahijo =  "Mezcla";
+	            }
+	           hijo = new gato("", sexohijo, razahijo);
+	           
+	        }
+	       
+	       
+	       return hijo;
+	    }
+}
+
+//CLASE PERRO QUE ES HERENCIA DE MASCOTA
+
+public class perro extends mascota{
+	Scanner sc=new Scanner(System.in);
+	static String sonidoperro;
+	static String gustoperro;
+	static String mascotaotra;
+	private String raza;
+	public perro(String nombre, Sexo sexo,String raza) {
+		super(nombre, sexo);
+		// CONSTRUCTOR
+		this.raza=raza;
+	}
+
+	public void decirAlgo() {
+		System.out.println(sonidoperro);
+	}
+	public void gustosAlimentarios() {
+		System.out.println(gustoperro);
+	}
+	public String toString() {
+		return super.toString()+" RAZA= "+this.raza;
+	}
+	@Override
+	public mascota cruzar(mascota otra) {
+		 mascota hijo = null;
+	       
+	       if (  (this.getClass() == otra.getClass()) && (this.sexo != otra.sexo)) {
+	           Sexo sexohijo = ( Math.random() >0.5)? Sexo.MACHO: Sexo.HEMBRA;
+	           String razahijo;
+	           
+	           if ( this.raza.equals(((perro)otra).raza) ){
+	               razahijo = this.raza;
+	            }
+	           else{
+	               razahijo =  "Mezcla";
+	            }
+	           hijo = new perro("", sexohijo, razahijo);
+	           
+	        }
+	       
+	       
+	       return hijo;
+	    }
+}
+
+//CLASE COBAYA QUE ES HERENCIA DE MASCOTA
+
+public class cobaya extends mascota{
+	Scanner sc=new Scanner(System.in);
+	static String sonidocobaya;
+	static String gustocobaya;
+	static String mascotaotra;
+	
+	public cobaya(String nombre, Sexo sexo) {
+		super(nombre, sexo);
+		// CONSTRUCTOR
+	}
+
+	public void decirAlgo() {
+		System.out.println(sonidocobaya);
+	}
+	public void gustosAlimentarios() {
+		System.out.println(gustocobaya);
+	}
+
+	@Override
+	public mascota cruzar(mascota otra) {
+		mascota hijo = null;
+		if (  (this.getClass() == otra.getClass()) && (this.sexo != otra.sexo)) {
+	           Sexo sexohijo = ( Math.random() >0.5)? Sexo.MACHO: Sexo.HEMBRA;
+	           
+	           hijo = new cobaya("", sexohijo);
+	           
+	        }
+	       
+	       
+	       return hijo;
+	    }
+}
+
+
